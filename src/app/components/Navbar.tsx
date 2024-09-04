@@ -18,7 +18,7 @@ export default function Navbar() {
             <Link href="/gymuser/progress">Progreso</Link>
           </li>
           <li>
-            <Link href="/gymuser/diet">Dieta</Link>
+            <Link href="/gymuser/diets">Dieta</Link>
           </li>
           <li>
             <Link href="/gym">GymEspacio</Link>
