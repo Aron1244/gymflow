@@ -1,0 +1,490 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+
+type Meal = {
+  name: string;
+  description: string;
+};
+
+type Diet = {
+  name: string;
+  description: string;
+  meals: Meal[];
+  vegan: Meal[];
+  glutenFree: Meal[];
+};
+
+export default function DietsPage() {
+  const [diets, setDiets] = useState<Diet[]>([
+    {
+      name: "Dieta para Rutina de Fuerza",
+      description:
+        "Esta dieta está diseñada para apoyar el crecimiento muscular y la recuperación, proporcionando suficientes proteínas y calorías para soportar el entrenamiento de fuerza.",
+      meals: [
+        {
+          name: "Desayuno",
+          description:
+            "Avena con plátano y almendras, huevos revueltos, y un batido de proteínas.",
+        },
+        {
+          name: "Almuerzo",
+          description:
+            "Pechuga de pollo a la parrilla, arroz integral, y vegetales al vapor.",
+        },
+        { name: "Merienda", description: "Yogur griego con frutas y nueces." },
+        {
+          name: "Cena",
+          description: "Salmón al horno, batata asada, y ensalada verde.",
+        },
+        {
+          name: "Snack nocturno",
+          description: "Batido de caseína o cottage cheese con frutas.",
+        },
+      ],
+      vegan: [
+        {
+          name: "Desayuno",
+          description:
+            "Batido de proteína vegetal con plátano, espinacas y mantequilla de almendras.",
+        },
+        {
+          name: "Almuerzo",
+          description: "Tofu salteado con quinoa y vegetales variados.",
+        },
+        { name: "Merienda", description: "Hummus con zanahorias y apio." },
+        {
+          name: "Cena",
+          description: "Lentejas con arroz integral y brócoli al vapor.",
+        },
+        {
+          name: "Snack nocturno",
+          description: "Yogur de soja con semillas de chía y bayas.",
+        },
+      ],
+      glutenFree: [
+        {
+          name: "Desayuno",
+          description: "Tortilla de claras con espinacas y batata hash browns.",
+        },
+        {
+          name: "Almuerzo",
+          description:
+            "Pechuga de pavo a la plancha con quinoa y vegetales asados.",
+        },
+        { name: "Merienda", description: "Queso cottage con frutas y nueces." },
+        {
+          name: "Cena",
+          description: "Filete de pescado con arroz salvaje y espárragos.",
+        },
+        {
+          name: "Snack nocturno",
+          description:
+            "Batido de proteínas con leche sin lactosa y frutas del bosque.",
+        },
+      ],
+    },
+    {
+      name: "Dieta para Rutina de Definición",
+      description:
+        "Esta dieta está diseñada para apoyar la definición muscular, con un enfoque en alimentos bajos en grasa y ricos en proteínas para mantener la masa muscular mientras se reduce la grasa corporal.",
+      meals: [
+        {
+          name: "Desayuno",
+          description: "Claras de huevo con espinacas y avena integral.",
+        },
+        {
+          name: "Almuerzo",
+          description:
+            "Pechuga de pavo a la plancha con ensalada mixta y quinoa.",
+        },
+        {
+          name: "Merienda",
+          description:
+            "Batido de proteínas con frutas bajas en azúcar (como fresas o arándanos).",
+        },
+        {
+          name: "Cena",
+          description: "Pescado blanco al vapor con brócoli y batata al horno.",
+        },
+        {
+          name: "Snack nocturno",
+          description: "Yogur griego bajo en grasa con semillas de chía.",
+        },
+      ],
+      vegan: [
+        {
+          name: "Desayuno",
+          description: "Tofu revuelto con espinacas y pan integral tostado.",
+        },
+        {
+          name: "Almuerzo",
+          description:
+            "Ensalada de garbanzos con verduras y aderezo de tahini.",
+        },
+        {
+          name: "Merienda",
+          description:
+            "Batido de proteína de guisante con espinacas y frutos rojos.",
+        },
+        {
+          name: "Cena",
+          description:
+            "Tempeh a la plancha con coliflor arroz y judías verdes.",
+        },
+        {
+          name: "Snack nocturno",
+          description: "Pudín de chía hecho con leche de almendras y canela.",
+        },
+      ],
+      glutenFree: [
+        {
+          name: "Desayuno",
+          description: "Tortilla de claras con champiñones y aguacate.",
+        },
+        {
+          name: "Almuerzo",
+          description: "Pollo a la parrilla con ensalada y arroz integral.",
+        },
+        {
+          name: "Merienda",
+          description: "Batido de proteínas con almendras y frutos rojos.",
+        },
+        {
+          name: "Cena",
+          description: "Salmón al horno con calabacín y quinoa.",
+        },
+        {
+          name: "Snack nocturno",
+          description: "Yogur griego sin grasa con nueces y canela.",
+        },
+      ],
+    },
+    {
+      name: "Dieta para Rutina de Principiantes",
+      description:
+        "Esta dieta está diseñada para principiantes, proporcionando una nutrición equilibrada para apoyar el nuevo régimen de ejercicios y promover hábitos alimenticios saludables.",
+      meals: [
+        {
+          name: "Desayuno",
+          description:
+            "Tostadas integrales con aguacate y huevo revuelto. Un vaso de zumo de naranja natural.",
+        },
+        {
+          name: "Almuerzo",
+          description:
+            "Ensalada de pollo a la parrilla con verduras variadas y vinagreta ligera. Una pieza de fruta.",
+        },
+        {
+          name: "Merienda",
+          description: "Yogur natural con un puñado de nueces y miel.",
+        },
+        {
+          name: "Cena",
+          description:
+            "Pescado al horno con patatas y verduras al vapor. Una pequeña porción de arroz integral.",
+        },
+        {
+          name: "Snack nocturno (opcional)",
+          description: "Un vaso de leche desnatada o una infusión de hierbas.",
+        },
+      ],
+      vegan: [
+        {
+          name: "Desayuno",
+          description:
+            "Tostadas integrales con hummus y tomate. Un batido verde con espinacas y plátano.",
+        },
+        {
+          name: "Almuerzo",
+          description:
+            "Ensalada de lentejas con verduras variadas y aderezo de limón. Una manzana.",
+        },
+        {
+          name: "Merienda",
+          description: "Yogur de soja con semillas de girasol y arándanos.",
+        },
+        {
+          name: "Cena",
+          description:
+            "Curry de garbanzos con arroz integral y brócoli al vapor.",
+        },
+        {
+          name: "Snack nocturno (opcional)",
+          description: "Un puñado de almendras o una infusión de hierbas.",
+        },
+      ],
+      glutenFree: [
+        {
+          name: "Desayuno",
+          description:
+            "Tortilla de huevo con espinacas y queso. Un vaso de zumo de naranja natural.",
+        },
+        {
+          name: "Almuerzo",
+          description:
+            "Ensalada de quinoa con pollo a la parrilla y verduras. Una pera.",
+        },
+        {
+          name: "Merienda",
+          description: "Yogur natural con semillas de chía y fresas.",
+        },
+        {
+          name: "Cena",
+          description:
+            "Salmón a la plancha con puré de patatas y judías verdes.",
+        },
+        {
+          name: "Snack nocturno (opcional)",
+          description: "Queso cottage con nueces o una infusión de hierbas.",
+        },
+      ],
+    },
+    {
+      name: "Dieta para Rutina Full-Body",
+      description:
+        "Esta dieta está diseñada para proporcionar energía y nutrientes para una rutina full-body intensa, con un equilibrio de proteínas, carbohidratos complejos y grasas saludables.",
+      meals: [
+        {
+          name: "Desayuno",
+          description:
+            "Batido de proteínas con plátano, espinacas, avena y mantequilla de almendras.",
+        },
+        {
+          name: "Almuerzo",
+          description:
+            "Bowl de quinoa con pollo a la parrilla, aguacate, garbanzos y verduras asadas.",
+        },
+        {
+          name: "Merienda pre-entrenamiento",
+          description: "Tostada integral con hummus y rodajas de tomate.",
+        },
+        {
+          name: "Cena post-entrenamiento",
+          description:
+            "Salmón al horno con batata y brócoli al vapor. Una porción de arroz integral.",
+        },
+        {
+          name: "Snack nocturno",
+          description: "Yogur griego con nueces y bayas.",
+        },
+      ],
+      vegan: [
+        {
+          name: "Desayuno",
+          description:
+            "Batido de proteína vegetal con plátano, espinacas, avena y mantequilla de cacahuete.",
+        },
+        {
+          name: "Almuerzo",
+          description:
+            "Bowl de quinoa con tofu salteado, aguacate, garbanzos y verduras asadas.",
+        },
+        {
+          name: "Merienda pre-entrenamiento",
+          description: "Tostada integral con hummus y rodajas de pepino.",
+        },
+        {
+          name: "Cena post-entrenamiento",
+          description:
+            "Tempeh a la plancha con batata y brócoli al vapor. Una porción de arroz integral.",
+        },
+        {
+          name: "Snack nocturno",
+          description: "Yogur de soja con nueces y arándanos.",
+        },
+      ],
+      glutenFree: [
+        {
+          name: "Desayuno",
+          description:
+            "Batido de proteínas con plátano, espinacas, copos de quinoa y mantequilla de almendras.",
+        },
+        {
+          name: "Almuerzo",
+          description:
+            "Bowl de arroz integral con pollo a la parrilla, aguacate, lentejas y verduras asadas.",
+        },
+        {
+          name: "Merienda pre-entrenamiento",
+          description: "Galletas de arroz con hummus y rodajas de tomate.",
+        },
+        {
+          name: "Cena post-entrenamiento",
+          description:
+            "Salmón al horno con batata y brócoli al vapor. Una porción de quinoa.",
+        },
+        {
+          name: "Snack nocturno",
+          description: "Yogur griego sin gluten con nueces y bayas.",
+        },
+      ],
+    },
+    {
+      name: "Dieta para Rutina de Volumen",
+      description:
+        "Esta dieta está diseñada para apoyar el crecimiento muscular, proporcionando un excedente calórico y abundantes proteínas para la recuperación y el crecimiento muscular.",
+      meals: [
+        {
+          name: "Desayuno",
+          description:
+            "Batido de proteínas con avena, plátano, mantequilla de cacahuete y leche entera. 3 huevos revueltos con espinacas.",
+        },
+        {
+          name: "Almuerzo",
+          description:
+            "Pechuga de pollo grande (200g) con arroz integral, aguacate y brócoli al vapor.",
+        },
+        {
+          name: "Merienda pre-entrenamiento",
+          description:
+            "Yogur griego con granola y frutas. Un puñado de frutos secos.",
+        },
+        {
+          name: "Cena post-entrenamiento",
+          description:
+            "Filete de ternera (200g) con patatas al horno y ensalada mixta. Un vaso de zumo de naranja.",
+        },
+        {
+          name: "Snack nocturno",
+          description:
+            "Batido de caseína con leche entera y una cucharada de aceite de linaza.",
+        },
+      ],
+      vegan: [
+        {
+          name: "Desayuno",
+          description:
+            "Batido de proteína vegetal con avena, plátano, mantequilla de cacahuete y leche de soja. Tofu revuelto con espinacas.",
+        },
+        {
+          name: "Almuerzo",
+          description:
+            "Tempeh a la plancha (200g) con arroz integral, aguacate y brócoli al vapor.",
+        },
+        {
+          name: "Merienda pre-entrenamiento",
+          description:
+            "Yogur de soja con granola sin miel y frutas. Un puñado de frutos secos.",
+        },
+        {
+          name: "Cena post-entrenamiento",
+          description:
+            "Hamburguesa de lentejas con patatas al horno y ensalada mixta. Un vaso de batido de proteínas.",
+        },
+        {
+          name: "Snack nocturno",
+          description:
+            "Batido de proteína de guisante con leche de almendras y una cucharada de aceite de linaza.",
+        },
+      ],
+      glutenFree: [
+        {
+          name: "Desayuno",
+          description:
+            "Batido de proteínas con quinoa, plátano, mantequilla de almendras y leche sin lactosa. 3 huevos revueltos con espinacas.",
+        },
+        {
+          name: "Almuerzo",
+          description:
+            "Pechuga de pollo grande (200g) con quinoa, aguacate y brócoli al vapor.",
+        },
+        {
+          name: "Merienda pre-entrenamiento",
+          description:
+            "Yogur griego con nueces y frutas. Un puñado de frutos secos.",
+        },
+        {
+          name: "Cena post-entrenamiento",
+          description:
+            "Filete de ternera (200g) con batata al horno y ensalada mixta. Un vaso de zumo de naranja.",
+        },
+        {
+          name: "Snack nocturno",
+          description:
+            "Batido de proteínas sin gluten con leche sin lactosa y una cucharada de aceite de linaza.",
+        },
+      ],
+    },
+  ]);
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-6">Planes de Dieta</h1>
+
+      {diets.map((diet, index) => (
+        <div
+          key={index}
+          className="mb-12 bg-white shadow-md rounded-lg overflow-hidden"
+        >
+          <div className="bg-gray-100 px-6 py-4">
+            <h2 className="text-2xl font-semibold">{diet.name}</h2>
+            <p className="text-gray-600 mt-2">{diet.description}</p>
+          </div>
+
+          <div className="p-6">
+            <h3 className="text-xl font-semibold mb-4">
+              Plan de comidas estándar
+            </h3>
+            <ul className="space-y-4">
+              {diet.meals.map((meal, mealIndex) => (
+                <li key={mealIndex}>
+                  <span className="font-medium">{meal.name}:</span>{" "}
+                  {meal.description}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="bg-green-50 p-6">
+            <h3 className="text-xl font-semibold mb-4">Alternativa Vegana</h3>
+            <ul className="space-y-4">
+              {diet.vegan.map((meal, mealIndex) => (
+                <li key={mealIndex}>
+                  <span className="font-medium">{meal.name}:</span>{" "}
+                  {meal.description}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="bg-yellow-50 p-6">
+            <h3 className="text-xl font-semibold mb-4">
+              Alternativa Sin Gluten
+            </h3>
+            <ul className="space-y-4">
+              {diet.glutenFree.map((meal, mealIndex) => (
+                <li key={mealIndex}>
+                  <span className="font-medium">{meal.name}:</span>{" "}
+                  {meal.description}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      ))}
+
+      <div className="mt-8 bg-blue-50 p-6 rounded-lg">
+        <h2 className="text-2xl font-semibold mb-4">Nota Importante</h2>
+        <p className="text-gray-700">
+          Estas dietas son recomendaciones generales y pueden no ser adecuadas
+          para todos. Antes de hacer cambios significativos en tu dieta,
+          especialmente si tienes condiciones médicas o alergias, consulta con
+          un nutricionista o profesional de la salud. Las necesidades
+          nutricionales varían según la persona, el nivel de actividad y los
+          objetivos específicos.
+        </p>
+      </div>
+
+      <div className="mt-8">
+        <Link
+          href="/gymuser/routines"
+          className="text-blue-500 hover:text-blue-700"
+        >
+          &larr; Volver a Rutinas
+        </Link>
+      </div>
+    </div>
+  );
+}
