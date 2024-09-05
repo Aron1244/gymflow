@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
 
 type Meal = {
@@ -11,6 +11,7 @@ type Meal = {
 type Diet = {
   name: string;
   description: string;
+  routine: string;
   meals: Meal[];
   vegan: Meal[];
   glutenFree: Meal[];
@@ -22,6 +23,7 @@ export default function DietsPage() {
       name: "Dieta para Rutina de Fuerza",
       description:
         "Esta dieta está diseñada para apoyar el crecimiento muscular y la recuperación, proporcionando suficientes proteínas y calorías para soportar el entrenamiento de fuerza.",
+      routine: "Fuerza",
       meals: [
         {
           name: "Desayuno",
@@ -89,6 +91,7 @@ export default function DietsPage() {
       name: "Dieta para Rutina de Definición",
       description:
         "Esta dieta está diseñada para apoyar la definición muscular, con un enfoque en alimentos bajos en grasa y ricos en proteínas para mantener la masa muscular mientras se reduce la grasa corporal.",
+      routine: "Definición",
       meals: [
         {
           name: "Desayuno",
@@ -165,6 +168,7 @@ export default function DietsPage() {
       name: "Dieta para Rutina de Principiantes",
       description:
         "Esta dieta está diseñada para principiantes, proporcionando una nutrición equilibrada para apoyar el nuevo régimen de ejercicios y promover hábitos alimenticios saludables.",
+      routine: "Principiantes",
       meals: [
         {
           name: "Desayuno",
@@ -245,6 +249,7 @@ export default function DietsPage() {
       name: "Dieta para Rutina Full-Body",
       description:
         "Esta dieta está diseñada para proporcionar energía y nutrientes para una rutina full-body intensa, con un equilibrio de proteínas, carbohidratos complejos y grasas saludables.",
+      routine: "Full-Body",
       meals: [
         {
           name: "Desayuno",
@@ -325,6 +330,7 @@ export default function DietsPage() {
       name: "Dieta para Rutina de Volumen",
       description:
         "Esta dieta está diseñada para apoyar el crecimiento muscular, proporcionando un excedente calórico y abundantes proteínas para la recuperación y el crecimiento muscular.",
+      routine: "Volumen",
       meals: [
         {
           name: "Desayuno",
@@ -409,11 +415,105 @@ export default function DietsPage() {
     },
   ]);
 
+  const [filters, setFilters] = useState({
+    routine: "",
+    mealType: "",
+    dietType: "standard",
+  });
+
+  const filteredDiets = useMemo(() => {
+    return diets.filter(
+      (diet) => filters.routine === "" || diet.routine === filters.routine
+    );
+  }, [diets, filters.routine]);
+
+  const routines = [...new Set(diets.map((diet) => diet.routine))];
+  const mealTypes = [
+    "Desayuno",
+    "Almuerzo",
+    "Merienda",
+    "(Merienda pre-entrenamiento)",
+    "Cena",
+    "(Cena post-entrenamiento)",
+    "Snack nocturno",
+  ];
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">Planes de Dieta</h1>
 
-      {diets.map((diet, index) => (
+      <div className="mb-8 space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <label
+              htmlFor="routine"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              Rutina
+            </label>
+            <select
+              id="routine"
+              value={filters.routine}
+              onChange={(e) =>
+                setFilters({ ...filters, routine: e.target.value })
+              }
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            >
+              <option value="">Todas las rutinas</option>
+              {routines.map((routine) => (
+                <option key={routine} value={routine}>
+                  {routine}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label
+              htmlFor="mealType"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              Tipo de comida
+            </label>
+            <select
+              id="mealType"
+              value={filters.mealType}
+              onChange={(e) =>
+                setFilters({ ...filters, mealType: e.target.value })
+              }
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            >
+              <option value="">Todas las comidas</option>
+              {mealTypes.map((mealType) => (
+                <option key={mealType} value={mealType}>
+                  {mealType}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label
+              htmlFor="dietType"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              Tipo de dieta
+            </label>
+            <select
+              id="dietType"
+              value={filters.dietType}
+              onChange={(e) =>
+                setFilters({ ...filters, dietType: e.target.value })
+              }
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            >
+              <option value="standard">Estándar</option>
+              <option value="vegan">Vegana</option>
+              <option value="glutenFree">Sin gluten</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      {filteredDiets.map((diet, index) => (
         <div
           key={index}
           className="mb-12 bg-white shadow-md rounded-lg overflow-hidden"
@@ -425,45 +525,41 @@ export default function DietsPage() {
 
           <div className="p-6">
             <h3 className="text-xl font-semibold mb-4">
-              Plan de comidas estándar
+              Plan de comidas{" "}
+              {filters.dietType === "vegan"
+                ? "vegano"
+                : filters.dietType === "glutenFree"
+                ? "sin gluten"
+                : "estándar"}
             </h3>
             <ul className="space-y-4">
-              {diet.meals.map((meal, mealIndex) => (
-                <li key={mealIndex}>
-                  <span className="font-medium">{meal.name}:</span>{" "}
-                  {meal.description}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="bg-green-50 p-6">
-            <h3 className="text-xl font-semibold mb-4">Alternativa Vegana</h3>
-            <ul className="space-y-4">
-              {diet.vegan.map((meal, mealIndex) => (
-                <li key={mealIndex}>
-                  <span className="font-medium">{meal.name}:</span>{" "}
-                  {meal.description}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="bg-yellow-50 p-6">
-            <h3 className="text-xl font-semibold mb-4">
-              Alternativa Sin Gluten
-            </h3>
-            <ul className="space-y-4">
-              {diet.glutenFree.map((meal, mealIndex) => (
-                <li key={mealIndex}>
-                  <span className="font-medium">{meal.name}:</span>{" "}
-                  {meal.description}
-                </li>
-              ))}
+              {(filters.dietType === "vegan"
+                ? diet.vegan
+                : filters.dietType === "glutenFree"
+                ? diet.glutenFree
+                : diet.meals
+              )
+                .filter(
+                  (meal) =>
+                    filters.mealType === "" ||
+                    meal.name.includes(filters.mealType)
+                )
+                .map((meal, mealIndex) => (
+                  <li key={mealIndex}>
+                    <span className="font-medium">{meal.name}:</span>{" "}
+                    {meal.description}
+                  </li>
+                ))}
             </ul>
           </div>
         </div>
       ))}
+
+      {filteredDiets.length === 0 && (
+        <p className="text-center text-gray-600 mt-8">
+          No se encontraron dietas que coincidan con los filtros seleccionados.
+        </p>
+      )}
 
       <div className="mt-8 bg-blue-50 p-6 rounded-lg">
         <h2 className="text-2xl font-semibold mb-4">Nota Importante</h2>
