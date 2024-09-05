@@ -1,92 +1,70 @@
 import Link from "next/link";
 
 export default function Footer() {
-  const currentYear = new Date().getFullYear();
-
   return (
-    <footer className="bg-gray-800 text-white py-8">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div>
-            <h2 className="text-2xl font-bold mb-4">GymFlow</h2>
-            <p className="text-gray-300">
+    <footer className="bg-gray-800 text-white">
+      <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <div className="xl:grid xl:grid-cols-3 xl:gap-8">
+          <div className="space-y-8 xl:col-span-1">
+            <span className="text-xl font-bold">GymFlow</span>
+            <p className="text-gray-400 text-base">
               Tu compañero personal para alcanzar tus metas fitness.
             </p>
           </div>
-          <div>
-            <h3 className="text-xl font-semibold mb-4">Enlaces rápidos</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link
-                  href="/gymuser/routines"
-                  className="hover:text-blue-400 transition-colors"
-                >
-                  Rutinas
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/tutorials"
-                  className="hover:text-blue-400 transition-colors"
-                >
-                  Tutoriales
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/gymuser/progress"
-                  className="hover:text-blue-400 transition-colors"
-                >
-                  Progreso
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/gymuser/diet"
-                  className="hover:text-blue-400 transition-colors"
-                >
-                  Dieta
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/gym"
-                  className="hover:text-blue-400 transition-colors"
-                >
-                  GymEspacio
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="text-xl font-semibold mb-4">Contacto</h3>
-            <p className="text-gray-300 mb-2">Email: info@gymflow.com</p>
-            <p className="text-gray-300">Teléfono: +1 (123) 456-7890</p>
+          <div className="mt-12 grid grid-cols-2 gap-8 xl:mt-0 xl:col-span-2">
+            <div className="md:grid md:grid-cols-2 md:gap-8">
+              <div>
+                <h3 className="text-sm font-semibold text-gray-300 tracking-wider uppercase">
+                  Empresa
+                </h3>
+                <ul className="mt-4 space-y-4">
+                  <li>
+                    <Link
+                      href="/about"
+                      className="text-base text-gray-400 hover:text-white"
+                    >
+                      Sobre nosotros
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/contact"
+                      className="text-base text-gray-400 hover:text-white"
+                    >
+                      Contacto
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+              <div className="mt-12 md:mt-0">
+                <h3 className="text-sm font-semibold text-gray-300 tracking-wider uppercase">
+                  Legal
+                </h3>
+                <ul className="mt-4 space-y-4">
+                  <li>
+                    <Link
+                      href="/privacy"
+                      className="text-base text-gray-400 hover:text-white"
+                    >
+                      Política de privacidad
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/terms"
+                      className="text-base text-gray-400 hover:text-white"
+                    >
+                      Términos de uso
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
-        <div className="mt-8 pt-8 border-t border-gray-700 text-center">
-          <p className="text-gray-300">
-            &copy; {currentYear} GymFlow. Todos los derechos reservados.
-          </p>
-          <p className="text-gray-400 mt-2">
-            Desarrollado por{" "}
-            <a
-              href="https://byteforge.com"
-              className="hover:text-blue-400 transition-colors"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Byteforge
-            </a>{" "}
-            y{" "}
-            <a
-              href="https://zeustech.com"
-              className="hover:text-blue-400 transition-colors"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Zeustech
-            </a>
+        <div className="mt-12 border-t border-gray-700 pt-8">
+          <p className="text-base text-gray-400 xl:text-center">
+            &copy; 2023 GymFlow. Todos los derechos reservados.
           </p>
         </div>
       </div>

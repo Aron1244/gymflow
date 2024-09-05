@@ -1,88 +1,64 @@
 "use client";
 
-import React, { createContext, useState, useContext, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 
 type User = {
-  id: string;
   name: string;
   email: string;
   selectedRoutines: number[];
-};
+} | null;
 
 type AuthContextType = {
-  user: User | null;
+  user: User;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
-  register: (name: string, email: string, password: string) => Promise<void>;
-  updateSelectedRoutines: (routineIds: number[]) => void;
+  updateSelectedRoutines: (routines: number[]) => void;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
-  const [user, setUser] = useState<User | null>(null);
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const [user, setUser] = useState<User>(null);
 
   useEffect(() => {
-    // Check for saved user in localStorage
-    const savedUser = localStorage.getItem("user");
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
-    }
+    // Aquí podrías verificar si hay una sesión guardada en localStorage o hacer una llamada a la API
+    // Por ahora, simplemente inicializamos como no autenticado
+    setUser(null);
   }, []);
 
   const login = async (email: string, password: string) => {
-    // Simulating API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    // In a real app, you would validate credentials here
-    const newUser: User = {
-      id: "1",
-      name: "John Doe",
-      email,
+    // Aquí iría la lógica real de autenticación
+    // Por ahora, simplemente simulamos un inicio de sesión exitoso
+    setUser({
+      name: "Usuario de Prueba",
+      email: email,
       selectedRoutines: [],
-    };
-    setUser(newUser);
-    localStorage.setItem("user", JSON.stringify(newUser));
+    });
   };
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem("user");
   };
 
-  const register = async (name: string, email: string, password: string) => {
-    // Simulating API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    // In a real app, you would create a new user here
-    const newUser: User = { id: "1", name, email, selectedRoutines: [] };
-    setUser(newUser);
-    localStorage.setItem("user", JSON.stringify(newUser));
-  };
-
-  const updateSelectedRoutines = (routineIds: number[]) => {
+  const updateSelectedRoutines = (routines: number[]) => {
     if (user) {
-      const updatedUser = { ...user, selectedRoutines: routineIds };
-      setUser(updatedUser);
-      localStorage.setItem("user", JSON.stringify(updatedUser));
+      setUser({ ...user, selectedRoutines: routines });
     }
   };
 
   return (
     <AuthContext.Provider
-      value={{ user, login, logout, register, updateSelectedRoutines }}
+      value={{ user, login, logout, updateSelectedRoutines }}
     >
       {children}
     </AuthContext.Provider>
   );
-};
+}
 
-export const useAuth = () => {
+export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {
     throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
-};
+}
