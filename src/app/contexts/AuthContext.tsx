@@ -38,6 +38,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = () => {
     setUser(null);
+    window.location.href = "/";
   };
 
   const updateSelectedRoutines = (routines: number[]) => {
