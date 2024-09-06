@@ -413,6 +413,90 @@ export default function DietsPage() {
         },
       ],
     },
+    {
+      name: "Dieta para Rutina de Calistenia",
+      description:
+        "Esta dieta está diseñada para apoyar el entrenamiento de calistenia, proporcionando suficientes proteínas para la recuperación muscular y carbohidratos para la energía.",
+      routine: "Calistenia",
+      meals: [
+        {
+          name: "Desayuno",
+          description:
+            "Avena con plátano, almendras y una cucharada de mantequilla de maní. Un batido de proteínas con espinacas y bayas.",
+        },
+        {
+          name: "Almuerzo",
+          description:
+            "Ensalada de quinoa con pollo a la parrilla, aguacate, tomates cherry y aderezo de limón.",
+        },
+        {
+          name: "Merienda pre-entrenamiento",
+          description: "Yogur griego con miel y nueces. Una manzana.",
+        },
+        {
+          name: "Cena post-entrenamiento",
+          description:
+            "Salmón al horno con batata y brócoli al vapor. Una porción de arroz integral.",
+        },
+        {
+          name: "Snack nocturno",
+          description:
+            "Cottage cheese con frutas del bosque y semillas de chía.",
+        },
+      ],
+      vegan: [
+        {
+          name: "Desayuno",
+          description:
+            "Batido de proteína vegetal con plátano, espinacas, mantequilla de almendras y leche de soja. Tostadas de pan integral con hummus.",
+        },
+        {
+          name: "Almuerzo",
+          description:
+            "Bowl de quinoa con tofu salteado, garbanzos, aguacate y verduras asadas.",
+        },
+        {
+          name: "Merienda pre-entrenamiento",
+          description: "Yogur de soja con granola sin miel y frutas frescas.",
+        },
+        {
+          name: "Cena post-entrenamiento",
+          description:
+            "Curry de lentejas con arroz integral y brócoli al vapor. Ensalada de espinacas con nueces y semillas.",
+        },
+        {
+          name: "Snack nocturno",
+          description:
+            "Pudín de chía hecho con leche de almendras y frutas del bosque.",
+        },
+      ],
+      glutenFree: [
+        {
+          name: "Desayuno",
+          description:
+            "Tortilla de huevos con espinacas y queso. Batido de proteínas con plátano y mantequilla de almendras.",
+        },
+        {
+          name: "Almuerzo",
+          description:
+            "Pechuga de pollo a la parrilla con quinoa y ensalada mixta.",
+        },
+        {
+          name: "Merienda pre-entrenamiento",
+          description: "Yogur griego con frutas y nueces.",
+        },
+        {
+          name: "Cena post-entrenamiento",
+          description:
+            "Salmón al horno con batata y judías verdes. Arroz salvaje.",
+        },
+        {
+          name: "Snack nocturno",
+          description:
+            "Queso cottage sin lactosa con frutas del bosque y semillas de chía.",
+        },
+      ],
+    },
   ]);
 
   const [filters, setFilters] = useState({
