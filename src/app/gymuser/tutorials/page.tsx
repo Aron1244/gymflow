@@ -152,6 +152,55 @@ export default function TutorialsPage() {
       exercise: "Extensiones de tríceps",
       difficulty: "Intermedio",
     },
+    {
+      id: 16,
+      title: "Dominadas para principiantes",
+      description:
+        "Aprende la técnica correcta para hacer dominadas desde cero",
+      url: "https://www.youtube.com/embed/eGo4IYlbE5g",
+      withMachine: false,
+      exercise: "Dominadas",
+      difficulty: "Principiante",
+    },
+    {
+      id: 17,
+      title: "Flexiones perfectas",
+      description:
+        "Guía completa para realizar flexiones con la técnica correcta",
+      url: "https://www.youtube.com/embed/IODxDxX7oi4",
+      withMachine: false,
+      exercise: "Flexiones",
+      difficulty: "Principiante",
+    },
+    {
+      id: 18,
+      title: "Dips en paralelas",
+      description:
+        "Cómo realizar dips en barras paralelas para fortalecer pecho y tríceps",
+      url: "https://www.youtube.com/embed/2z8JmcrW-As",
+      withMachine: false,
+      exercise: "Dips",
+      difficulty: "Intermedio",
+    },
+    {
+      id: 19,
+      title: "Muscle-ups para principiantes",
+      description: "Progresión para aprender a hacer muscle-ups",
+      url: "https://www.youtube.com/embed/Gpny7WAAZ44",
+      withMachine: false,
+      exercise: "Muscle-ups",
+      difficulty: "Avanzado",
+    },
+    {
+      id: 20,
+      title: "Pistol squats: guía completa",
+      description:
+        "Aprende a realizar sentadillas a una pierna (pistol squats)",
+      url: "https://www.youtube.com/embed/vq5-vdgJc0I",
+      withMachine: false,
+      exercise: "Pistol squats",
+      difficulty: "Avanzado",
+    },
   ]);
 
   const [filters, setFilters] = useState({

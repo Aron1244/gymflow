@@ -75,6 +75,17 @@ export default function RoutinesPage() {
         { id: 3, name: "Extensiones de tríceps", sets: 4, reps: 10 },
       ],
     },
+    {
+      id: 6,
+      name: "Rutina de calistenia",
+      description: "Rutina con peso corporal.",
+      type: "Calistenia",
+      exercises: [
+        { id: 1, name: "Sentadillas con peso corporal", sets: 4, reps: 12 },
+        { id: 2, name: "Sentadillas con barra", sets: 4, reps: 10 },
+        { id: 3, name: "Sentadillas en máquina Smith", sets: 4, reps: 8 },
+      ],
+    },
   ]);
 
   const [newRoutine, setNewRoutine] = useState<Routine>({
