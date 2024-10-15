@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
+import VideoCard from "@/components/VideoCard";
 
 type Video = {
   id: number;
@@ -11,6 +12,7 @@ type Video = {
   withMachine: boolean;
   exercise: string;
   difficulty: "Principiante" | "Intermedio" | "Avanzado";
+  isFavorite: boolean;
 };
 
 export default function TutorialsPage() {
@@ -23,6 +25,7 @@ export default function TutorialsPage() {
       withMachine: false,
       exercise: "Sentadillas",
       difficulty: "Principiante",
+      isFavorite: false,
     },
     {
       id: 2,
@@ -32,6 +35,7 @@ export default function TutorialsPage() {
       withMachine: false,
       exercise: "Sentadillas",
       difficulty: "Intermedio",
+      isFavorite: false,
     },
     {
       id: 3,
@@ -41,6 +45,7 @@ export default function TutorialsPage() {
       withMachine: true,
       exercise: "Sentadillas",
       difficulty: "Intermedio",
+      isFavorite: false,
     },
     {
       id: 4,
@@ -51,6 +56,7 @@ export default function TutorialsPage() {
       withMachine: false,
       exercise: "Press de banca",
       difficulty: "Principiante",
+      isFavorite: false,
     },
     {
       id: 5,
@@ -60,6 +66,7 @@ export default function TutorialsPage() {
       withMachine: false,
       exercise: "Press de banca",
       difficulty: "Intermedio",
+      isFavorite: false,
     },
     {
       id: 6,
@@ -69,6 +76,7 @@ export default function TutorialsPage() {
       withMachine: true,
       exercise: "Press de banca",
       difficulty: "Principiante",
+      isFavorite: false,
     },
     {
       id: 7,
@@ -78,6 +86,7 @@ export default function TutorialsPage() {
       withMachine: false,
       exercise: "Peso muerto",
       difficulty: "Intermedio",
+      isFavorite: false,
     },
     {
       id: 8,
@@ -87,6 +96,7 @@ export default function TutorialsPage() {
       withMachine: false,
       exercise: "Peso muerto",
       difficulty: "Avanzado",
+      isFavorite: false,
     },
     {
       id: 9,
@@ -96,6 +106,7 @@ export default function TutorialsPage() {
       withMachine: true,
       exercise: "Peso muerto",
       difficulty: "Principiante",
+      isFavorite: false,
     },
     {
       id: 10,
@@ -105,6 +116,7 @@ export default function TutorialsPage() {
       withMachine: false,
       exercise: "Curl de bíceps",
       difficulty: "Principiante",
+      isFavorite: false,
     },
     {
       id: 11,
@@ -114,6 +126,7 @@ export default function TutorialsPage() {
       withMachine: false,
       exercise: "Curl de bíceps",
       difficulty: "Intermedio",
+      isFavorite: false,
     },
     {
       id: 12,
@@ -123,6 +136,7 @@ export default function TutorialsPage() {
       withMachine: true,
       exercise: "Curl de bíceps",
       difficulty: "Principiante",
+      isFavorite: false,
     },
     {
       id: 13,
@@ -132,6 +146,7 @@ export default function TutorialsPage() {
       withMachine: false,
       exercise: "Extensiones de tríceps",
       difficulty: "Principiante",
+      isFavorite: false,
     },
     {
       id: 14,
@@ -141,6 +156,7 @@ export default function TutorialsPage() {
       withMachine: false,
       exercise: "Extensiones de tríceps",
       difficulty: "Intermedio",
+      isFavorite: false,
     },
     {
       id: 15,
@@ -151,6 +167,7 @@ export default function TutorialsPage() {
       withMachine: true,
       exercise: "Extensiones de tríceps",
       difficulty: "Intermedio",
+      isFavorite: false,
     },
     {
       id: 16,
@@ -161,6 +178,7 @@ export default function TutorialsPage() {
       withMachine: false,
       exercise: "Dominadas",
       difficulty: "Principiante",
+      isFavorite: false,
     },
     {
       id: 17,
@@ -171,6 +189,7 @@ export default function TutorialsPage() {
       withMachine: false,
       exercise: "Flexiones",
       difficulty: "Principiante",
+      isFavorite: false,
     },
     {
       id: 18,
@@ -181,6 +200,7 @@ export default function TutorialsPage() {
       withMachine: false,
       exercise: "Dips",
       difficulty: "Intermedio",
+      isFavorite: false,
     },
     {
       id: 19,
@@ -190,6 +210,7 @@ export default function TutorialsPage() {
       withMachine: false,
       exercise: "Muscle-ups",
       difficulty: "Avanzado",
+      isFavorite: false,
     },
     {
       id: 20,
@@ -200,8 +221,20 @@ export default function TutorialsPage() {
       withMachine: false,
       exercise: "Pistol squats",
       difficulty: "Avanzado",
+      isFavorite: false,
     },
   ]);
+
+  const toggleFavorite = (id: number) => {
+    setVideos((prevVideos) =>
+      prevVideos.map((video) => {
+        if (video.id === id) {
+          return { ...video, isFavorite: !video.isFavorite };
+        }
+        return video;
+      })
+    );
+  };
 
   const [filters, setFilters] = useState({
     search: "",
@@ -227,7 +260,10 @@ export default function TutorialsPage() {
     });
   }, [videos, filters]);
 
-  const exercises = [...new Set(videos.map((video) => video.exercise))];
+  const favoriteVideos = videos.filter((video) => video.isFavorite);
+  const nonFavoriteVideos = filteredVideos.filter((video) => !video.isFavorite);
+
+  const exercises = Array.from(new Set(videos.map((video) => video.exercise)));
   const difficulties = ["Principiante", "Intermedio", "Avanzado"];
 
   return (
@@ -321,52 +357,41 @@ export default function TutorialsPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredVideos.map((video) => (
-          <div
-            key={video.id}
-            className="bg-white shadow-md rounded-lg overflow-hidden"
-          >
-            <div className="aspect-w-16 aspect-h-9">
-              <iframe
-                src={video.url}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="w-full h-full"
-                title={video.title}
-              ></iframe>
-            </div>
-            <div className="p-4">
-              <h3 className="font-semibold text-lg mb-2">{video.title}</h3>
-              <p className="text-gray-600 mb-2">{video.description}</p>
-              <div className="flex flex-wrap gap-2">
-                <span className="px-2 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-800">
-                  {video.exercise}
-                </span>
-                <span className="px-2 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800">
-                  {video.difficulty}
-                </span>
-                <span
-                  className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                    video.withMachine
-                      ? "bg-purple-100 text-purple-800"
-                      : "bg-yellow-100 text-yellow-800"
-                  }`}
-                >
-                  {video.withMachine ? "Con máquina" : "Sin máquina"}
-                </span>
-              </div>
-            </div>
+      {/* Videos Favoritos */}
+      {favoriteVideos.length > 0 && (
+        <div>
+          <h2 className="text-2xl font-semibold mb-4">Videos Favoritos</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {favoriteVideos.map((video) => (
+              <VideoCard
+                key={video.id}
+                video={video}
+                toggleFavorite={toggleFavorite}
+              />
+            ))}
           </div>
+        </div>
+      )}
+
+      {/* Todos los videos (no favoritos) */}
+      <h2 className="text-2xl font-semibold mt-8 mb-4">Todos los Videos</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {nonFavoriteVideos.map((video) => (
+          <VideoCard
+            key={video.id}
+            video={video}
+            toggleFavorite={toggleFavorite}
+          />
         ))}
       </div>
 
-      {filteredVideos.length === 0 && (
+      {nonFavoriteVideos.length === 0 && (
         <p className="text-center text-gray-600 mt-8">
           No se encontraron videos que coincidan con los filtros seleccionados.
         </p>
       )}
 
+      {/* Nota Importante */}
       <div className="mt-8 bg-gray-100 p-6 rounded-lg">
         <h2 className="text-2xl font-semibold mb-4">Nota Importante</h2>
         <p className="text-gray-700">

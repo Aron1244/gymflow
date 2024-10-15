@@ -511,7 +511,7 @@ export default function DietsPage() {
     );
   }, [diets, filters.routine]);
 
-  const routines = [...new Set(diets.map((diet) => diet.routine))];
+  const routines = Array.from(new Set(diets.map((diet) => diet.routine)));
   const mealTypes = [
     "Desayuno",
     "Almuerzo",
