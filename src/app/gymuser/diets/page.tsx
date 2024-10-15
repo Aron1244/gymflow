@@ -2,6 +2,11 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
+import {
+  ChevronDownIcon,
+  ExclamationTriangleIcon,
+} from "@heroicons/react/24/outline";
+import DietCard from "@/components/DietCard";
 
 type Meal = {
   name: string;
@@ -15,6 +20,7 @@ type Diet = {
   meals: Meal[];
   vegan: Meal[];
   glutenFree: Meal[];
+  isFavorite: boolean;
 };
 
 export default function DietsPage() {
@@ -86,6 +92,7 @@ export default function DietsPage() {
             "Batido de proteínas con leche sin lactosa y frutas del bosque.",
         },
       ],
+      isFavorite: false,
     },
     {
       name: "Dieta para Rutina de Definición",
@@ -163,6 +170,7 @@ export default function DietsPage() {
           description: "Yogur griego sin grasa con nueces y canela.",
         },
       ],
+      isFavorite: false,
     },
     {
       name: "Dieta para Rutina de Principiantes",
@@ -244,6 +252,7 @@ export default function DietsPage() {
           description: "Queso cottage con nueces o una infusión de hierbas.",
         },
       ],
+      isFavorite: false,
     },
     {
       name: "Dieta para Rutina Full-Body",
@@ -325,6 +334,7 @@ export default function DietsPage() {
           description: "Yogur griego sin gluten con nueces y bayas.",
         },
       ],
+      isFavorite: false,
     },
     {
       name: "Dieta para Rutina de Volumen",
@@ -412,6 +422,7 @@ export default function DietsPage() {
             "Batido de proteínas sin gluten con leche sin lactosa y una cucharada de aceite de linaza.",
         },
       ],
+      isFavorite: false,
     },
     {
       name: "Dieta para Rutina de Calistenia",
@@ -496,8 +507,11 @@ export default function DietsPage() {
             "Queso cottage sin lactosa con frutas del bosque y semillas de chía.",
         },
       ],
+      isFavorite: false,
     },
   ]);
+
+  const [favoriteDiets, setFavoriteDiets] = useState<string[]>([]);
 
   const [filters, setFilters] = useState({
     routine: "",
@@ -522,12 +536,22 @@ export default function DietsPage() {
     "Snack nocturno",
   ];
 
+  const toggleFavorite = (dietName: string) => {
+    setFavoriteDiets((prevFavorites) =>
+      prevFavorites.includes(dietName)
+        ? prevFavorites.filter((name) => name !== dietName)
+        : [...prevFavorites, dietName]
+    );
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">Planes de Dieta</h1>
 
+      {/* Filtros */}
       <div className="mb-8 space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* Filtro por rutina */}
           <div>
             <label
               htmlFor="routine"
@@ -535,22 +559,26 @@ export default function DietsPage() {
             >
               Rutina
             </label>
-            <select
-              id="routine"
-              value={filters.routine}
-              onChange={(e) =>
-                setFilters({ ...filters, routine: e.target.value })
-              }
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-            >
-              <option value="">Todas las rutinas</option>
-              {routines.map((routine) => (
-                <option key={routine} value={routine}>
-                  {routine}
-                </option>
-              ))}
-            </select>
+            <div className="relative">
+              <select
+                id="routine"
+                value={filters.routine}
+                onChange={(e) =>
+                  setFilters({ ...filters, routine: e.target.value })
+                }
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              >
+                <option value="">Todas las rutinas</option>
+                {routines.map((routine) => (
+                  <option key={routine} value={routine}>
+                    {routine}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
+
+          {/* Filtro por tipo de comida */}
           <div>
             <label
               htmlFor="mealType"
@@ -558,22 +586,26 @@ export default function DietsPage() {
             >
               Tipo de comida
             </label>
-            <select
-              id="mealType"
-              value={filters.mealType}
-              onChange={(e) =>
-                setFilters({ ...filters, mealType: e.target.value })
-              }
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-            >
-              <option value="">Todas las comidas</option>
-              {mealTypes.map((mealType) => (
-                <option key={mealType} value={mealType}>
-                  {mealType}
-                </option>
-              ))}
-            </select>
+            <div className="relative">
+              <select
+                id="mealType"
+                value={filters.mealType}
+                onChange={(e) =>
+                  setFilters({ ...filters, mealType: e.target.value })
+                }
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              >
+                <option value="">Todas las comidas</option>
+                {mealTypes.map((mealType) => (
+                  <option key={mealType} value={mealType}>
+                    {mealType}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
+
+          {/* Filtro por tipo de dieta */}
           <div>
             <label
               htmlFor="dietType"
@@ -581,63 +613,65 @@ export default function DietsPage() {
             >
               Tipo de dieta
             </label>
-            <select
-              id="dietType"
-              value={filters.dietType}
-              onChange={(e) =>
-                setFilters({ ...filters, dietType: e.target.value })
-              }
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-            >
-              <option value="standard">Estándar</option>
-              <option value="vegan">Vegana</option>
-              <option value="glutenFree">Sin gluten</option>
-            </select>
+            <div className="relative">
+              <select
+                id="dietType"
+                value={filters.dietType}
+                onChange={(e) =>
+                  setFilters({ ...filters, dietType: e.target.value })
+                }
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              >
+                <option value="standard">Estándar</option>
+                <option value="vegan">Vegana</option>
+                <option value="glutenFree">Sin gluten</option>
+              </select>
+            </div>
           </div>
         </div>
       </div>
 
-      {filteredDiets.map((diet, index) => (
-        <div
-          key={index}
-          className="mb-12 bg-white shadow-md rounded-lg overflow-hidden"
-        >
-          <div className="bg-gray-100 px-6 py-4">
-            <h2 className="text-2xl font-semibold">{diet.name}</h2>
-            <p className="text-gray-600 mt-2">{diet.description}</p>
-          </div>
-
-          <div className="p-6">
-            <h3 className="text-xl font-semibold mb-4">
-              Plan de comidas{" "}
-              {filters.dietType === "vegan"
-                ? "vegano"
-                : filters.dietType === "glutenFree"
-                ? "sin gluten"
-                : "estándar"}
-            </h3>
-            <ul className="space-y-4">
-              {(filters.dietType === "vegan"
-                ? diet.vegan
-                : filters.dietType === "glutenFree"
-                ? diet.glutenFree
-                : diet.meals
-              )
-                .filter(
-                  (meal) =>
-                    filters.mealType === "" ||
-                    meal.name.includes(filters.mealType)
-                )
-                .map((meal, mealIndex) => (
-                  <li key={mealIndex}>
-                    <span className="font-medium">{meal.name}:</span>{" "}
-                    {meal.description}
-                  </li>
-                ))}
-            </ul>
+      {/* Planes de dieta favoritos */}
+      {favoriteDiets.length > 0 && (
+        <div className="mb-6">
+          <h2 className="text-2xl font-semibold mb-4">
+            Planes de dieta favoritos
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {filteredDiets
+              .filter((diet) => favoriteDiets.includes(diet.name))
+              .map((diet, index) => (
+                <DietCard
+                  key={index}
+                  diet={diet}
+                  dietType={filters.dietType}
+                  mealType={filters.mealType}
+                  onToggleFavorite={toggleFavorite}
+                  isFavorite={true} // Son favoritos
+                />
+              ))}
           </div>
         </div>
-      ))}
+      )}
+
+      {/* Planes de dieta no favoritos */}
+      <div>
+        <h2 className="text-2xl font-semibold mb-4">Planes de dieta</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {filteredDiets
+            .filter((diet) => !favoriteDiets.includes(diet.name))
+            .map((diet, index) => (
+              <DietCard
+                key={index}
+                diet={diet}
+                dietType={filters.dietType}
+                mealType={filters.mealType}
+                onToggleFavorite={toggleFavorite}
+                isFavorite={false} // No son favoritos
+              />
+            ))}
+        </div>
+      </div>
 
       {filteredDiets.length === 0 && (
         <p className="text-center text-gray-600 mt-8">
@@ -645,18 +679,23 @@ export default function DietsPage() {
         </p>
       )}
 
-      <div className="mt-8 bg-blue-50 p-6 rounded-lg">
-        <h2 className="text-2xl font-semibold mb-4">Nota Importante</h2>
-        <p className="text-gray-700">
-          Estas dietas son recomendaciones generales y pueden no ser adecuadas
-          para todos. Antes de hacer cambios significativos en tu dieta,
-          especialmente si tienes condiciones médicas o alergias, consulta con
-          un nutricionista o profesional de la salud. Las necesidades
-          nutricionales varían según la persona, el nivel de actividad y los
-          objetivos específicos.
-        </p>
+      {/* Nota importante */}
+      <div className="mt-8 bg-blue-50 p-6 rounded-lg flex items-start">
+        <ExclamationTriangleIcon className="h-6 w-6 text-blue-500 mr-3" />
+        <div>
+          <h2 className="text-2xl font-semibold mb-4">Nota Importante</h2>
+          <p className="text-gray-700">
+            Estas dietas son recomendaciones generales y pueden no ser adecuadas
+            para todos. Antes de hacer cambios significativos en tu dieta,
+            especialmente si tienes condiciones médicas o alergias, consulta con
+            un nutricionista o profesional de la salud. Las necesidades
+            nutricionales varían según la persona, el nivel de actividad y los
+            objetivos específicos.
+          </p>
+        </div>
       </div>
 
+      {/* Enlace de regreso */}
       <div className="mt-8">
         <Link
           href="/gymuser/routines"

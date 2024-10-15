@@ -61,12 +61,6 @@ export default function Navbar() {
                     Tutoriales
                   </Link>
                   <Link
-                    href="/gymuser/progress"
-                    className="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700"
-                  >
-                    Progreso
-                  </Link>
-                  <Link
                     href="/gymuser/profile"
                     className="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700"
                   >
