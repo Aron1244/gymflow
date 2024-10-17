@@ -17,7 +17,7 @@ export default function LoginPage() {
     setError("");
     try {
       await login(email, password);
-      router.push("/gymuser/profile");
+      router.push("/");
     } catch (err) {
       setError("Failed to log in");
     }

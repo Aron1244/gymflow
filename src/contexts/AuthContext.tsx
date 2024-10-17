@@ -27,13 +27,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const login = async (email: string, password: string) => {
-    // Aquí iría la lógica real de autenticación
-    // Por ahora, simplemente simulamos un inicio de sesión exitoso
-    setUser({
-      name: "Usuario de Prueba",
-      email: email,
-      selectedRoutines: [],
-    });
+    // Verifica si el correo es "espacio@mail.com"
+    if (email === "espacio@mail.com") {
+      setUser({
+        name: "Espacio Exclusivo",
+        email: email,
+        selectedRoutines: [], // Puedes personalizar las rutinas si es necesario
+      });
+    } else {
+      // Lógica de inicio de sesión para otros usuarios
+      setUser({
+        name: "Usuario de Prueba",
+        email: email,
+        selectedRoutines: [],
+      });
+    }
   };
 
   const logout = () => {

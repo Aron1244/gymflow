@@ -23,6 +23,9 @@ export default function Navbar() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const isGymEspacioUser = user?.email === "espacio@mail.com";
+  const basePath = isGymEspacioUser ? "/gymespacio" : "/gymuser";
+
   return (
     <nav className="bg-gray-800 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -43,35 +46,45 @@ export default function Navbar() {
               {user ? (
                 <>
                   <Link
-                    href="/gymuser/routines"
+                    href={`${basePath}/routines`}
                     className="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700"
                   >
                     Rutinas
                   </Link>
                   <Link
-                    href="/gymuser/diets"
+                    href={`${basePath}/diets`}
                     className="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700"
                   >
                     Dietas
                   </Link>
                   <Link
-                    href="/gymuser/tutorials"
-                    className="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700"
+                    href={`${basePath}/tutorials`}
+                    className="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700"
                   >
                     Tutoriales
                   </Link>
                   <Link
-                    href="/gymuser/sala"
+                    href={`${basePath}/sala`}
                     className="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700"
                   >
                     GymPersonal
                   </Link>
                   <Link
-                    href="/gymuser/profile"
+                    href={`${basePath}/profile`}
                     className="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700"
                   >
                     Perfil
                   </Link>
+
+                  {isGymEspacioUser && (
+                    <Link
+                      href="/gymespacio/form-create"
+                      className="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700"
+                    >
+                      Crear Formulario
+                    </Link>
+                  )}
+
                   <button
                     onClick={logout}
                     className="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700"
@@ -154,35 +167,39 @@ export default function Navbar() {
             {user ? (
               <>
                 <Link
-                  href="/gymuser/routines"
+                  href={`${basePath}/routines`}
                   className="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700"
                 >
                   Rutinas
                 </Link>
                 <Link
-                  href="/gymuser/diets"
+                  href={`${basePath}/diets`}
                   className="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700"
                 >
                   Dietas
                 </Link>
                 <Link
-                  href="/gymuser/tutorials"
+                  href={`${basePath}/tutorials`}
                   className="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700"
                 >
                   Tutoriales
                 </Link>
                 <Link
-                  href="/gymuser/progress"
-                  className="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700"
-                >
-                  Progreso
-                </Link>
-                <Link
-                  href="/gymuser/profile"
+                  href={`${basePath}/profile`}
                   className="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700"
                 >
                   Perfil
                 </Link>
+
+                {isGymEspacioUser && (
+                  <Link
+                    href="/gymespacio/form-create"
+                    className="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700"
+                  >
+                    Crear Formulario
+                  </Link>
+                )}
+
                 <button
                   onClick={logout}
                   className="block w-full text-left px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700"
