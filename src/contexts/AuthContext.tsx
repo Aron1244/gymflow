@@ -1,11 +1,21 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from "react";
+import RoutineCard from "@/components/RoutineCard";
+import DietCard from "@/components/DietCard";
+import VideoCard from "@/components/VideoCard";
+
+export type Routine = typeof RoutineCard[]; // Define the Routine type according to your requirements
+export type Diet = typeof DietCard[]; // Define the Diet type according to your requirements
+export type Video = typeof VideoCard[]; // Define the Video type according to your requirements
 
 type User = {
   name: string;
   email: string;
   selectedRoutines: number[];
+  favoriteRoutines?: Routine[];
+  favoriteDietPlans?: Diet[];
+  favoriteVideos?: Video[];
 } | null;
 
 type AuthContextType = {
@@ -40,6 +50,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         name: "Usuario de Prueba",
         email: email,
         selectedRoutines: [],
+        favoriteRoutines: [],
+        favoriteDietPlans: [],
+        favoriteVideos: [],
       });
     }
   };

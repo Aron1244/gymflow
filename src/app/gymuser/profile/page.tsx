@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useAuth } from "../../../contexts/AuthContext";
+import { useAuth, Routine, Diet, Video } from "../../../contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import RoutineCard from "@/components/RoutineCard";
 import VideoCard from "@/components/VideoCard";
@@ -14,38 +14,13 @@ type Exercise = {
   reps: number;
 };
 
-type Routine = {
-  id: number;
-  name: string;
-  description: string;
-  type: string;
-  exercises: Exercise[];
-  favorite: boolean;
-};
+// Removed local Routine type definition as it is imported from AuthContext
 
-type Video = {
-  id: number;
-  title: string;
-  description: string;
-  url: string;
-  withMachine: boolean;
-  exercise: string;
-  difficulty: "Principiante" | "Intermedio" | "Avanzado";
-  isFavorite: boolean;
-};
+// Removed local Video type definition as it is imported from AuthContext
 
 type Meal = {
   name: string;
   description: string;
-};
-
-type Diet = {
-  name: string;
-  description: string;
-  meals: Meal[];
-  vegan: Meal[];
-  glutenFree: Meal[];
-  isFavorite: boolean;
 };
 
 export default function ProfilePage() {
@@ -102,11 +77,17 @@ export default function ProfilePage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {favoriteRoutines.map((routine) => (
                         <RoutineCard
-                          key={routine.id}
-                          routine={routine}
-                          onToggleFavorite={(id) =>
-                            handleToggleFavorite(id, "routine")
-                          }
+                          routine={{
+                            id: 0,
+                            name: "",
+                            description: "",
+                            type: "",
+                            exercises: [],
+                            favorite: false,
+                          }}
+                          onToggleFavorite={function (id: number): void {
+                            throw new Error("Function not implemented.");
+                          }}
                         />
                       ))}
                     </div>
@@ -125,12 +106,20 @@ export default function ProfilePage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {favoriteDietPlans.map((diet) => (
                         <DietCard
-                          key={diet.name}
-                          diet={diet}
-                          toggleFavorite={(name) =>
-                            handleToggleFavorite(name, "diet")
-                          }
-                        />
+                          diet={{
+                            name: "",
+                            description: "",
+                            meals: [],
+                            vegan: [],
+                            glutenFree: [],
+                          }}
+                          dietType={""}
+                          mealType={""}
+                          onToggleFavorite={function (dietName: string): void {
+                            throw new Error("Function not implemented.");
+                          }}
+                          isFavorite={false}
+                        ></DietCard>
                       ))}
                     </div>
                   ) : (
@@ -146,11 +135,19 @@ export default function ProfilePage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {favoriteVideos.map((video) => (
                         <VideoCard
-                          key={video.id}
-                          video={video}
-                          toggleFavorite={(id) =>
-                            handleToggleFavorite(id, "video")
-                          }
+                          video={{
+                            id: 0,
+                            title: "",
+                            description: "",
+                            url: "",
+                            withMachine: false,
+                            exercise: "",
+                            difficulty: "Principiante",
+                            isFavorite: false,
+                          }}
+                          toggleFavorite={function (id: number): void {
+                            throw new Error("Function not implemented.");
+                          }}
                         />
                       ))}
                     </div>
