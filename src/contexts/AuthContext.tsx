@@ -5,9 +5,9 @@ import RoutineCard from "@/components/RoutineCard";
 import DietCard from "@/components/DietCard";
 import VideoCard from "@/components/VideoCard";
 
-export type Routine = typeof RoutineCard[]; // Define the Routine type according to your requirements
-export type Diet = typeof DietCard[]; // Define the Diet type according to your requirements
-export type Video = typeof VideoCard[]; // Define the Video type according to your requirements
+export type Routine = typeof RoutineCard[]; // Define el tipo Routine
+export type Diet = typeof DietCard[]; // Define el tipo Diet
+export type Video = typeof VideoCard[]; // Define el tipo Video
 
 type User = {
   name: string;
@@ -22,10 +22,25 @@ type AuthContextType = {
   user: User;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
+  register: (name: string, email: string, password: string) => Promise<void>; // Añadir método register
   updateSelectedRoutines: (routines: number[]) => void;
 };
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const AuthContext = createContext<AuthContextType | undefined>({
+  user: null,
+  login: async (email: string, password: string) => {
+    // Implementar lógica de login
+  },
+  logout: () => {
+    // Implementar lógica de logout
+  },
+  register: async (name: string, email: string, password: string) => {
+    // Implementar lógica de register
+  },
+  updateSelectedRoutines: (routines: number[]) => {
+    // Implementar lógica de updateSelectedRoutines
+  },
+});
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User>(null);
@@ -68,9 +83,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const register = async (name: string, email: string, password: string) => {
+    // Implementar lógica de register
+    setUser({
+      name,
+      email,
+      selectedRoutines: [],
+      favoriteRoutines: [],
+      favoriteDietPlans: [],
+      favoriteVideos: [],
+    });
+  };
+
   return (
     <AuthContext.Provider
-      value={{ user, login, logout, updateSelectedRoutines }}
+      value={{ user, login, logout, register, updateSelectedRoutines }}
     >
       {children}
     </AuthContext.Provider>
@@ -84,3 +111,5 @@ export function useAuth() {
   }
   return context;
 }
+
+export default AuthContext;
