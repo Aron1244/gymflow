@@ -1,52 +1,140 @@
 "use client";
 
-import { useEffect } from "react";
-import { useAuth, Routine, Diet, Video } from "../../../contexts/AuthContext";
+import React, { useState, useEffect } from "react";
+import { useAuth } from "../../../contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import RoutineCard from "@/components/RoutineCard";
 import VideoCard from "@/components/VideoCard";
 import DietCard from "@/components/DietCard";
 
-type Exercise = {
-  id: number;
-  name: string;
-  sets: number;
-  reps: number;
-};
-
-// Removed local Routine type definition as it is imported from AuthContext
-
-// Removed local Video type definition as it is imported from AuthContext
-
-type Meal = {
-  name: string;
-  description: string;
-};
-
-export default function ProfilePage() {
+const ProfilePage = () => {
   const { user, logout } = useAuth();
   const router = useRouter();
+
+  const [favoriteRoutines, setFavoriteRoutines] = useState<any[]>([]);
+  const [favoriteVideos, setFavoriteVideos] = useState<any[]>([]);
+  const [favoriteDietPlans, setFavoriteDietPlans] = useState<any[]>([]);
+
+  const fetchData = async () => {
+    // Simulando una llamada a una API que devuelve arreglos vacíos
+    const routines: any[] = [];
+
+    const videos: any[] = [
+      {
+        id: 1,
+        title: "Sentadillas con peso corporal",
+        description:
+          "Aprende la técnica correcta de las sentadillas sin equipo",
+        url: "https://www.youtube.com/embed/aclHkVaku9U",
+        withMachine: false,
+        exercise: "Sentadillas",
+        difficulty: "Principiante",
+        isFavorite: false,
+      },
+      {
+        id: 3,
+        title: "Sentadillas en máquina Smith",
+        description: "Guía para hacer sentadillas en la máquina Smith",
+        url: "https://www.youtube.com/embed/IGKhneJqGko",
+        withMachine: true,
+        exercise: "Sentadillas",
+        difficulty: "Intermedio",
+        isFavorite: false,
+      },
+    ];
+    const diets: any[] = [
+      {
+        name: "Dieta para Rutina de Fuerza",
+        description:
+          "Esta dieta está diseñada para apoyar el crecimiento muscular y la recuperación, proporcionando suficientes proteínas y calorías para soportar el entrenamiento de fuerza.",
+        routine: "Fuerza",
+        meals: [
+          {
+            name: "Desayuno",
+            description:
+              "Avena con plátano y almendras, huevos revueltos, y un batido de proteínas.",
+          },
+          {
+            name: "Almuerzo",
+            description:
+              "Pechuga de pollo a la parrilla, arroz integral, y vegetales al vapor.",
+          },
+          {
+            name: "Merienda",
+            description: "Yogur griego con frutas y nueces.",
+          },
+          {
+            name: "Cena",
+            description: "Salmón al horno, batata asada, y ensalada verde.",
+          },
+          {
+            name: "Snack nocturno",
+            description: "Batido de caseína o cottage cheese con frutas.",
+          },
+        ],
+        vegan: [
+          {
+            name: "Desayuno",
+            description:
+              "Batido de proteína vegetal con plátano, espinacas y mantequilla de almendras.",
+          },
+          {
+            name: "Almuerzo",
+            description: "Tofu salteado con quinoa y vegetales variados.",
+          },
+          { name: "Merienda", description: "Hummus con zanahorias y apio." },
+          {
+            name: "Cena",
+            description: "Lentejas con arroz integral y brócoli al vapor.",
+          },
+          {
+            name: "Snack nocturno",
+            description: "Yogur de soja con semillas de chía y bayas.",
+          },
+        ],
+        glutenFree: [
+          {
+            name: "Desayuno",
+            description:
+              "Tortilla de claras con espinacas y batata hash browns.",
+          },
+          {
+            name: "Almuerzo",
+            description:
+              "Pechuga de pavo a la plancha con quinoa y vegetales asados.",
+          },
+          {
+            name: "Merienda",
+            description: "Queso cottage con frutas y nueces.",
+          },
+          {
+            name: "Cena",
+            description: "Filete de pescado con arroz salvaje y espárragos.",
+          },
+          {
+            name: "Snack nocturno",
+            description:
+              "Batido de proteínas con leche sin lactosa y frutas del bosque.",
+          },
+        ],
+        isFavorite: false,
+      },
+    ];
+
+    setFavoriteRoutines(routines);
+    setFavoriteVideos(videos);
+    setFavoriteDietPlans(diets);
+  };
 
   useEffect(() => {
     if (!user) {
       router.push("/login");
+    } else {
+      fetchData();
     }
   }, [user, router]);
 
   if (!user) return null;
-
-  // Asumimos que estos datos vendrían de la base de datos o de un estado global
-  const favoriteRoutines: Routine[] = user.favoriteRoutines || [];
-  const favoriteDietPlans: Diet[] = user.favoriteDietPlans || [];
-  const favoriteVideos: Video[] = user.favoriteVideos || [];
-
-  const handleToggleFavorite = (
-    id: number | string,
-    type: "routine" | "diet" | "video"
-  ) => {
-    // Implementar la lógica para alternar el estado de favorito
-    console.log(`Toggled favorite for ${type} with id: ${id}`);
-  };
 
   return (
     <div className="min-h-screen bg-gray-100 py-6 px-4 sm:px-6 lg:px-8">
@@ -75,16 +163,10 @@ export default function ProfilePage() {
                   </h2>
                   {favoriteRoutines.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {favoriteRoutines.map((routine) => (
+                      {favoriteRoutines.map((routine, index) => (
                         <RoutineCard
-                          routine={{
-                            id: 0,
-                            name: "",
-                            description: "",
-                            type: "",
-                            exercises: [],
-                            favorite: false,
-                          }}
+                          key={index}
+                          routine={routine}
                           onToggleFavorite={function (id: number): void {
                             throw new Error("Function not implemented.");
                           }}
@@ -100,51 +182,14 @@ export default function ProfilePage() {
 
                 <section>
                   <h2 className="text-2xl font-semibold mb-4">
-                    Planes de Dietas Favoritos
-                  </h2>
-                  {favoriteDietPlans.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {favoriteDietPlans.map((diet) => (
-                        <DietCard
-                          diet={{
-                            name: "",
-                            description: "",
-                            meals: [],
-                            vegan: [],
-                            glutenFree: [],
-                          }}
-                          dietType={""}
-                          mealType={""}
-                          onToggleFavorite={function (dietName: string): void {
-                            throw new Error("Function not implemented.");
-                          }}
-                          isFavorite={false}
-                        ></DietCard>
-                      ))}
-                    </div>
-                  ) : (
-                    <p className="text-gray-600">No tienes dietas favoritas.</p>
-                  )}
-                </section>
-
-                <section>
-                  <h2 className="text-2xl font-semibold mb-4">
                     Videos Favoritos
                   </h2>
                   {favoriteVideos.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {favoriteVideos.map((video) => (
                         <VideoCard
-                          video={{
-                            id: 0,
-                            title: "",
-                            description: "",
-                            url: "",
-                            withMachine: false,
-                            exercise: "",
-                            difficulty: "Principiante",
-                            isFavorite: false,
-                          }}
+                          key={video.id}
+                          video={video}
                           toggleFavorite={function (id: number): void {
                             throw new Error("Function not implemented.");
                           }}
@@ -155,6 +200,32 @@ export default function ProfilePage() {
                     <p className="text-gray-600">No tienes videos favoritos.</p>
                   )}
                 </section>
+
+                <section>
+                  <h2 className="text-2xl font-semibold mb-4">
+                    Planes de Dietas Favoritos
+                  </h2>
+                  {favoriteDietPlans.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {favoriteDietPlans.map((diet, index) => (
+                        <DietCard
+                          key={index}
+                          diet={diet}
+                          dietType={""}
+                          mealType={""}
+                          onToggleFavorite={function (dietName: string): void {
+                            throw new Error("Function not implemented.");
+                          }}
+                          isFavorite={false}
+                        />
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-gray-600">
+                      No tienes planes de dietas favoritos.
+                    </p>
+                  )}
+                </section>
               </div>
             </div>
           </div>
@@ -162,4 +233,6 @@ export default function ProfilePage() {
       </div>
     </div>
   );
-}
+};
+
+export default ProfilePage;
