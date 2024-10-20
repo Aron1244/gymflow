@@ -69,13 +69,6 @@ export default function Navbar() {
                   >
                     GymPersonal
                   </Link>
-                  <Link
-                    href={`${basePath}/profile`}
-                    className="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700"
-                  >
-                    Perfil
-                  </Link>
-
                   {isGymEspacioUser && (
                     <Link
                       href="/gymespacio/form-create"
@@ -84,7 +77,12 @@ export default function Navbar() {
                       Crear Formulario
                     </Link>
                   )}
-
+                  <Link
+                    href={`${basePath}/profile`}
+                    className="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700"
+                  >
+                    Perfil
+                  </Link>
                   <button
                     onClick={logout}
                     className="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700"
