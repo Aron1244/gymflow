@@ -14,10 +14,24 @@ const ProfilePage = () => {
   const [favoriteRoutines, setFavoriteRoutines] = useState<any[]>([]);
   const [favoriteVideos, setFavoriteVideos] = useState<any[]>([]);
   const [favoriteDietPlans, setFavoriteDietPlans] = useState<any[]>([]);
+  const [isFavorite, setIsFavorite] = useState(true); // or false, depending on initial state
 
   const fetchData = async () => {
     // Simulando una llamada a una API que devuelve arreglos vacíos
-    const routines: any[] = [];
+    const routines: any[] = [
+      {
+        id: 1,
+        name: "Rutina de Fuerza",
+        description: "Enfocada en aumentar la fuerza general del cuerpo.",
+        type: "Fuerza",
+        exercises: [
+          { id: 1, name: "Sentadillas", sets: 3, reps: 10 },
+          { id: 2, name: "Press de banca", sets: 3, reps: 8 },
+          { id: 3, name: "Peso muerto", sets: 3, reps: 5 },
+        ],
+        favorite: true,
+      },
+    ];
 
     const videos: any[] = [
       {
@@ -29,7 +43,7 @@ const ProfilePage = () => {
         withMachine: false,
         exercise: "Sentadillas",
         difficulty: "Principiante",
-        isFavorite: false,
+        isFavorite: true,
       },
       {
         id: 3,
@@ -39,7 +53,7 @@ const ProfilePage = () => {
         withMachine: true,
         exercise: "Sentadillas",
         difficulty: "Intermedio",
-        isFavorite: false,
+        isFavorite: true,
       },
     ];
     const diets: any[] = [
@@ -117,7 +131,7 @@ const ProfilePage = () => {
               "Batido de proteínas con leche sin lactosa y frutas del bosque.",
           },
         ],
-        isFavorite: false,
+        isFavorite: true,
       },
     ];
 
@@ -133,6 +147,28 @@ const ProfilePage = () => {
       fetchData();
     }
   }, [user, router]);
+
+  const onToggleFavoriteRoutine = () => {
+    const updatedFavoriteRoutines = favoriteRoutines.filter(
+      (favRoutine) => favRoutine.id !== favRoutine.id
+    );
+    setFavoriteRoutines(updatedFavoriteRoutines);
+  };
+
+  const onToggleFavoriteVideo = (video: any) => {
+    // Filtrar el arreglo para eliminar el video por id
+    const updatedFavoriteVideos = favoriteVideos.filter(
+      (favVideo) => favVideo.id !== video.id
+    );
+    setFavoriteVideos(updatedFavoriteVideos);
+  };
+
+  const onToggleFavoriteDiet = () => {
+    const updatedFavoriteDiet = favoriteRoutines.filter(
+      (favDiet) => favDiet.id !== favDiet.id
+    );
+    setFavoriteDietPlans(updatedFavoriteDiet);
+  };
 
   if (!user) return null;
 
@@ -167,9 +203,7 @@ const ProfilePage = () => {
                         <RoutineCard
                           key={index}
                           routine={routine}
-                          onToggleFavorite={function (id: number): void {
-                            throw new Error("Function not implemented.");
-                          }}
+                          onToggleFavorite={() => onToggleFavoriteRoutine()}
                         />
                       ))}
                     </div>
@@ -190,9 +224,7 @@ const ProfilePage = () => {
                         <VideoCard
                           key={video.id}
                           video={video}
-                          toggleFavorite={function (id: number): void {
-                            throw new Error("Function not implemented.");
-                          }}
+                          toggleFavorite={() => onToggleFavoriteVideo(video)}
                         />
                       ))}
                     </div>
@@ -213,10 +245,8 @@ const ProfilePage = () => {
                           diet={diet}
                           dietType={""}
                           mealType={""}
-                          onToggleFavorite={function (dietName: string): void {
-                            throw new Error("Function not implemented.");
-                          }}
-                          isFavorite={false}
+                          onToggleFavorite={() => onToggleFavoriteDiet()}
+                          isFavorite={isFavorite}
                         />
                       ))}
                     </div>
