@@ -21,7 +21,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <AuthProvider>
           <Navbar />
-          <main className="min-h-screen py-8">{children}</main>
+          <main className="min-h-screen">{children}</main>
           <Footer />
         </AuthProvider>
       </body>
