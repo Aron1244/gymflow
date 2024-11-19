@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import VideoCard from "@/components/VideoCard";
 
@@ -16,214 +16,25 @@ type Video = {
 };
 
 export default function TutorialsPage() {
-  const [videos, setVideos] = useState<Video[]>([
-    {
-      id: 1,
-      title: "Sentadillas con peso corporal",
-      description: "Aprende la técnica correcta de las sentadillas sin equipo",
-      url: "https://www.youtube.com/embed/aclHkVaku9U",
-      withMachine: false,
-      exercise: "Sentadillas",
-      difficulty: "Principiante",
-      isFavorite: false,
-    },
-    {
-      id: 2,
-      title: "Sentadillas con barra",
-      description: "Cómo realizar sentadillas con barra de forma segura",
-      url: "https://www.youtube.com/embed/SW_C1A-rejs",
-      withMachine: false,
-      exercise: "Sentadillas",
-      difficulty: "Intermedio",
-      isFavorite: false,
-    },
-    {
-      id: 3,
-      title: "Sentadillas en máquina Smith",
-      description: "Guía para hacer sentadillas en la máquina Smith",
-      url: "https://www.youtube.com/embed/IGKhneJqGko",
-      withMachine: true,
-      exercise: "Sentadillas",
-      difficulty: "Intermedio",
-      isFavorite: false,
-    },
-    {
-      id: 4,
-      title: "Flexiones (alternativa sin equipo)",
-      description:
-        "Cómo hacer flexiones correctamente como alternativa al press de banca",
-      url: "https://www.youtube.com/embed/IODxDxX7oi4",
-      withMachine: false,
-      exercise: "Press de banca",
-      difficulty: "Principiante",
-      isFavorite: false,
-    },
-    {
-      id: 5,
-      title: "Press de banca con barra",
-      description: "Técnica correcta para el press de banca con barra libre",
-      url: "https://www.youtube.com/embed/vcBig73ojpE",
-      withMachine: false,
-      exercise: "Press de banca",
-      difficulty: "Intermedio",
-      isFavorite: false,
-    },
-    {
-      id: 6,
-      title: "Press de banca en máquina",
-      description: "Cómo usar la máquina de press de banca",
-      url: "https://www.youtube.com/embed/xUm0BiZCWlQ",
-      withMachine: true,
-      exercise: "Press de banca",
-      difficulty: "Principiante",
-      isFavorite: false,
-    },
-    {
-      id: 7,
-      title: "Peso muerto con mancuernas",
-      description: "Técnica de peso muerto usando mancuernas",
-      url: "https://www.youtube.com/embed/lJ3QwaXNJfw",
-      withMachine: false,
-      exercise: "Peso muerto",
-      difficulty: "Intermedio",
-      isFavorite: false,
-    },
-    {
-      id: 8,
-      title: "Peso muerto con barra",
-      description: "Cómo realizar el peso muerto con barra de forma segura",
-      url: "https://www.youtube.com/embed/op9kVnSso6Q",
-      withMachine: false,
-      exercise: "Peso muerto",
-      difficulty: "Avanzado",
-      isFavorite: false,
-    },
-    {
-      id: 9,
-      title: "Peso muerto en máquina",
-      description: "Guía para hacer peso muerto en máquina",
-      url: "https://www.youtube.com/embed/AvCt5_u_3Rk",
-      withMachine: true,
-      exercise: "Peso muerto",
-      difficulty: "Principiante",
-      isFavorite: false,
-    },
-    {
-      id: 10,
-      title: "Curl de bíceps con banda elástica",
-      description: "Cómo hacer curl de bíceps con una banda elástica",
-      url: "https://www.youtube.com/embed/OAH9Aj7pCSs",
-      withMachine: false,
-      exercise: "Curl de bíceps",
-      difficulty: "Principiante",
-      isFavorite: false,
-    },
-    {
-      id: 11,
-      title: "Curl de bíceps con barra",
-      description: "Técnica correcta para el curl de bíceps con barra",
-      url: "https://www.youtube.com/embed/ykJmrZ5v0Oo",
-      withMachine: false,
-      exercise: "Curl de bíceps",
-      difficulty: "Intermedio",
-      isFavorite: false,
-    },
-    {
-      id: 12,
-      title: "Curl de bíceps en máquina",
-      description: "Cómo usar la máquina de curl de bíceps",
-      url: "https://www.youtube.com/embed/RFg1FZQ1YBM",
-      withMachine: true,
-      exercise: "Curl de bíceps",
-      difficulty: "Principiante",
-      isFavorite: false,
-    },
-    {
-      id: 13,
-      title: "Fondos de tríceps (sin equipo)",
-      description: "Cómo hacer fondos de tríceps usando una silla o banco",
-      url: "https://www.youtube.com/embed/6kALZikXxLc",
-      withMachine: false,
-      exercise: "Extensiones de tríceps",
-      difficulty: "Principiante",
-      isFavorite: false,
-    },
-    {
-      id: 14,
-      title: "Extensiones de tríceps con mancuerna",
-      description: "Técnica para extensiones de tríceps con mancuerna",
-      url: "https://www.youtube.com/embed/_gsUck-7M74",
-      withMachine: false,
-      exercise: "Extensiones de tríceps",
-      difficulty: "Intermedio",
-      isFavorite: false,
-    },
-    {
-      id: 15,
-      title: "Extensiones de tríceps en polea",
-      description:
-        "Cómo realizar extensiones de tríceps en la máquina de poleas",
-      url: "https://www.youtube.com/embed/2-LAMcpzODU",
-      withMachine: true,
-      exercise: "Extensiones de tríceps",
-      difficulty: "Intermedio",
-      isFavorite: false,
-    },
-    {
-      id: 16,
-      title: "Dominadas para principiantes",
-      description:
-        "Aprende la técnica correcta para hacer dominadas desde cero",
-      url: "https://www.youtube.com/embed/eGo4IYlbE5g",
-      withMachine: false,
-      exercise: "Dominadas",
-      difficulty: "Principiante",
-      isFavorite: false,
-    },
-    {
-      id: 17,
-      title: "Flexiones perfectas",
-      description:
-        "Guía completa para realizar flexiones con la técnica correcta",
-      url: "https://www.youtube.com/embed/IODxDxX7oi4",
-      withMachine: false,
-      exercise: "Flexiones",
-      difficulty: "Principiante",
-      isFavorite: false,
-    },
-    {
-      id: 18,
-      title: "Dips en paralelas",
-      description:
-        "Cómo realizar dips en barras paralelas para fortalecer pecho y tríceps",
-      url: "https://www.youtube.com/embed/2z8JmcrW-As",
-      withMachine: false,
-      exercise: "Dips",
-      difficulty: "Intermedio",
-      isFavorite: false,
-    },
-    {
-      id: 19,
-      title: "Muscle-ups para principiantes",
-      description: "Progresión para aprender a hacer muscle-ups",
-      url: "https://www.youtube.com/embed/Gpny7WAAZ44",
-      withMachine: false,
-      exercise: "Muscle-ups",
-      difficulty: "Avanzado",
-      isFavorite: false,
-    },
-    {
-      id: 20,
-      title: "Pistol squats: guía completa",
-      description:
-        "Aprende a realizar sentadillas a una pierna (pistol squats)",
-      url: "https://www.youtube.com/embed/vq5-vdgJc0I",
-      withMachine: false,
-      exercise: "Pistol squats",
-      difficulty: "Avanzado",
-      isFavorite: false,
-    },
-  ]);
+  const [videos, setVideos] = useState<Video[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/api/v1/video");
+        if (!response.ok) {
+          throw new Error("Error al cargar los datos");
+        }
+        const data: Video[] = await response.json();
+        console.log(data); 
+        setVideos(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const toggleFavorite = (id: number) => {
     setVideos((prevVideos) =>
